@@ -1,35 +1,28 @@
 import DeckGL from "@deck.gl/react";
-import { BitmapLayer } from "@deck.gl/layers";
-import img from "../assets/sandoz-hyderabad.png";
+import img from "../assets/test-floor-plan.jpg";
 import { useState } from "react";
+import { OrthographicView } from "@deck.gl/core";
+import {
+  controllerProps,
+  getFloorImageLayer,
+  getInitialViewState,
+} from "./FloorCanvasUtils";
+import { useEditLayer } from "./useEditLayer";
+
+// "heightPixels":6339 "widthPixels":8925
+const orthographicView = new OrthographicView({});
 
 export const FloorCanvas = () => {
-  const [floorPlanLayer] = useState(
-    () =>
-      new BitmapLayer({
-        id: "BitmapLayer",
-        bounds: [-122.519, 37.7045, -122.355, 37.829],
-        image: img,
-        pickable: true,
-      })
-  );
+  const [floorPlanLayer] = useState(() => getFloorImageLayer(img));
+  const editableLayer = useEditLayer();
 
   return (
     <DeckGL
-      initialViewState={{
-        longitude: -122.4,
-        latitude: 37.74,
-        zoom: 11,
-      }}
-      controller={{
-        scrollZoom: {
-          speed: 0.04,
-          smooth: true,
-        },
-        inertia: true,
-      }}
-      // getTooltip={({bitmap}: BitmapLayerPickingInfo) => bitmap && `${bitmap.pixel}`}
-      layers={[floorPlanLayer]}
+      initialViewState={getInitialViewState()}
+      controller={controllerProps}
+      layers={[floorPlanLayer, editableLayer]}
+      views={[orthographicView]}
+      style={{ backgroundColor: "white" }}
     />
   );
 };
