@@ -1,10 +1,15 @@
-import './App.css'
-import { FloorCanvas } from './FloorCanvas/FloorCanvas'
+import "./App.css";
+import { FloorCanvas } from "@/components/FloorCanvas/FloorCanvas";
+import { ThemeProvider } from "./elements/ThemeProvider/ThemeProvider";
 
 function App() {
   return (
-    <FloorCanvas />
-  )
+    <ThemeProvider>
+      <div className="min-h-screen  min-w-screen flex flex-col">
+        <FloorCanvas />
+      </div>
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;
