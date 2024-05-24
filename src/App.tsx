@@ -1,5 +1,5 @@
 import "./App.css";
-import { FloorCanvas } from "@/components/FloorCanvas/FloorCanvas";
+import FloorCanvas from "./components/FloorCanvas/FloorCanvas";
 import { ThemeProvider } from "./elements/ThemeProvider/ThemeProvider";
 
 function App() {

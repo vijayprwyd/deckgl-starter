@@ -1,36 +1,21 @@
-import DeckGL from "@deck.gl/react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import * as React from "react";
+import { ViewMode } from "@deck.gl-community/editable-layers";
+import { Toolbar } from "./Toolbar";
+import DeckGLCanvas from "../DeckGLCanvas/DeckGLCanvas";
 import img from "../../assets/test-floor-plan.jpg";
-import { useState } from "react";
-import { OrthographicView } from "@deck.gl/core";
-import {
-  controllerProps,
-  getFloorImageLayer,
-  getInitialViewState,
-} from "./FloorCanvasUtils";
-import { useEditLayer } from "./useEditLayer";
-import { Button } from "@/elements/Button/Button";
 
-// "heightPixels":6339 "widthPixels":8925
-const orthographicView = new OrthographicView({});
-
-export const FloorCanvas = () => {
-  const [floorPlanLayer] = useState(() => getFloorImageLayer(img));
-  const editableLayer = useEditLayer();
+const FloorCanvas = () => {
+  const [mode, setMode] = React.useState<any>(new ViewMode());
 
   return (
-    <div className="flex flex-col grow">
-      <div className="p-8">
-        <Button>Rectangle</Button>
-      </div>
+    <div className="flex flex-col grow gap-4">
+      <Toolbar onUpdateMode={setMode} />
       <div className="relative grow">
-        <DeckGL
-          initialViewState={getInitialViewState()}
-          controller={controllerProps}
-          layers={[floorPlanLayer, editableLayer]}
-          views={[orthographicView]}
-          style={{ backgroundColor: "white" }}
-        />
+        <DeckGLCanvas mode={mode} imageUrl={img} />
       </div>
     </div>
   );
 };
+
+export default FloorCanvas;
